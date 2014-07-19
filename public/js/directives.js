@@ -12,5 +12,5 @@ angular.module('remembrallApp.directives', [])
     return {
       restrict: 'A',
       template: 'templates/smAddItem.html'
-    }
+    };
   });
