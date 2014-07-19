@@ -28,5 +28,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
   // the default task can be run just by typing "grunt" on the command line
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('default', ['watch']);
 };
