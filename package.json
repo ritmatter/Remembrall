@@ -8,7 +8,8 @@
     "method-override" : "~2.0.2",
     "grunt": "~0.4.5",
     "grunt-contrib-jshint": "latest",
-    "grunt-contrib-watch": "latest"
+    "grunt-contrib-watch": "latest",
+    "twilio": "latest"
   }
 }
 
