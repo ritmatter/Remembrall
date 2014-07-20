@@ -9,7 +9,8 @@
     "grunt": "~0.4.5",
     "grunt-contrib-jshint": "latest",
     "grunt-contrib-watch": "latest",
-    "twilio": "latest"
+    "twilio": "latest",
+    "grunt-express-server": "latest"
   }
 }
 

@@ -18,15 +18,29 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint']
+      express: {
+        files: ['<%= jshint.files %>'],
+        tasks: ['jshint', 'express:dev'],
+        options: {
+          spawn: false
+        }
+      }
+    },
+    express: {
+      dev: {
+        options: {
+          port: 8080,
+          script: 'server.js'
+        }
+      }
     }
   });
 
 
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-express-server');
 
   // the default task can be run just by typing "grunt" on the command line
-  grunt.registerTask('default', ['watch']);
+  grunt.registerTask('default', ['express:dev', 'watch']);
 };
