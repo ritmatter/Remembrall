@@ -11,4 +11,4 @@ var PointSchema = new Schema({
   data: Number
 })
 
-module.exports = mongoose.model('Point', PointSchema)
+module.exports = mongoose.model(Point, PointSchema)
