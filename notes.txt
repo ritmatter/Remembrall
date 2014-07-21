@@ -1,0 +1,9 @@
+TODO:
+
+P0
+(ritmatter and krazemon): CHOOSE A UNIT TESTING FRAMEWORK AND CREATE UNIT TESTS!
+
+P1
+(ritmatter): Implement part 2 of authentication tutorial, preventing brute force attacks (http://devsmash.com/blog/implementing-max-login-attempts-with-mongoose)
+(krazemon): Build support for preliminary graph based on sleep data)
+(ritmatter): Implement backend calls to Twilio API
