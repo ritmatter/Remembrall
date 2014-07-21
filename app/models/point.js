@@ -6,6 +6,8 @@ var Schema = mongoose.Schema;
 var PointSchema = new Schema({
   type: String,
   timeStamp: Date,
+  userId: Number,
+  unit: String,
   data: Number
 })
 
