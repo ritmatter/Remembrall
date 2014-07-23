@@ -9,7 +9,7 @@ angular.module('remembrallApp', [
 config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider
     .when('/visualization',
-          {templateUrl: 'views/main.html', controller: 'VisualizationController' })
+          { templateUrl: 'views/main.html', controller: 'VisualizationController' })
     .otherwise({redirectTo: '/visualization' });
   $locationProvider.html5Mode(true);
 }]);

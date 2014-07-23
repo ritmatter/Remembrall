@@ -6,8 +6,10 @@ angular.module('remembrallApp.services', ['ngResource'])
     return $resource('/api/points/', {}, {
       getFriends: {
         method: 'GET',
+
        // Request returns an array
         isArray: true,
+
        // Serialize to JSON from and to backend
         transformRequest: function(data, headersGetter) {
           headersGetter()['Content-Type'] = 'application/json';
