@@ -9,6 +9,6 @@ var PointSchema = new Schema({
   userId: Number,
   unit: String,
   data: Number
-})
+});
 
 module.exports = mongoose.model('Point', PointSchema);
