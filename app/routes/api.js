@@ -106,9 +106,63 @@ module.exports = function(router) {
           });
       });
 
-    // Routes that in end /users/:user_id
+    // Route that end in /points/:user_id
+    // -------------------------------------------------------------------------------
+    router.route('/points/:user_id')
+
+        // Get all the points for the given user_id
+        .get(function(req, res) {
+            Point.findByUserId(req.params.user_id, function(err, point) {
+                if (err)
+                    res.send(err);
+                res.json(point);
+            });
+        })
+
+        // Delete the points with this id
+        .delete(function(req, res) {
+             Point.remove({
+                 _id: req.params.point_id,
+                 userId : req.params.user_id,
+             }, function(err, point) {
+                 if (err)
+                     res.send(err);
+
+                 res.json({ message: 'Successfully deleted points' });
+             });
+        });
+
+
+    // Routes that end /points/:user_id/:type
+    router.route('/points/:user_id/:type')
+
+        // Get all the points for a given type for a given user
+        .get(function(req, res) {
+            Point.findByUserIdAndType(req.params.user_id, req.params.type, function(err, point) {
+                if (err)
+                    res.send(err);
+                res.json(point);
+            });
+        })
+
+        // Delete the points with this id and type
+        .delete(function(req, res) {
+             Point.remove({
+                 _id: req.params.point_id,
+                 userId : req.params.user_id,
+                 type : req.params.type
+             }, function(err, point) {
+                 if (err)
+                     res.send(err);
+
+                 res.json({ message: 'Successfully deleted points' });
+             });
+        });
+
+
+    // Routes that end in /users/:user_id
     // --------------------------------------------------------------------------------
-    router.route('/userss/:user_id')
+    router.route('/users/:user_id')
 
         // Get the user with the provided id
         .get(function(req, res) {
@@ -140,15 +194,23 @@ module.exports = function(router) {
             });
          })
 
-         // Delete the point with this id
+         // Delete the user with this id
          .delete(function(req, res) {
-             User.remove({
-                 _id: req.params.user_id
-             }, function(err, user) {
+
+            // Remove the user
+             User.remove({ _id: req.params.user_id }, function(err, user) {
                  if (err)
                      res.send(err);
 
                  res.json({ message: 'Successfully deleted user' });
              });
+
+             // Remove the corresponding points
+             Point.remove({ userId: req.params.user_id}, function(err, point) {
+                 if (err)
+                     res.send(err);
+
+                 res.json({ message: 'Successfully deleted users points' });
+            });
         });
 };

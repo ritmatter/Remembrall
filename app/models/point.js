@@ -11,4 +11,12 @@ var PointSchema = new Schema({
   data: Number
 });
 
+PointSchema.method.findByUserId = function(userId, cb) {
+    return this.find({ userId : userId }, cb);
+}
+
+PointSchema.method.findByUserIdAndType = function(userId, type, cb) {
+    return this.find({ userId : userId, type : type }, cb);
+}
+
 module.exports = mongoose.model('Point', PointSchema);
