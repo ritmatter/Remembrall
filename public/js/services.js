@@ -21,3 +21,4 @@ angular.module('remembrallApp.services', ['ngResource'])
       }
     });
   }]);
+  
