@@ -10,7 +10,8 @@
     "grunt-contrib-jshint": "latest",
     "grunt-contrib-watch": "latest",
     "twilio": "latest",
-    "grunt-express-server": "latest"
+    "grunt-express-server": "latest",
+    "bcrypt": "latest"
   }
 }
 
