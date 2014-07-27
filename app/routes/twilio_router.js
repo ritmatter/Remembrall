@@ -1,5 +1,4 @@
-var twilio = require('twilio');
-var client = new twilio.RestClient('AC2e196fc0a7d4a9bfd78689dc3feb030f', '93b2c15b04ef67872ed5ab89c26044d7');
+var client = require('twilio')();
 
 var TWILIO_NUMBER = '+1 908 389 6792';
 var myNumber = '+1 908 917 2739';
@@ -7,7 +6,7 @@ var myNumber = '+1 908 917 2739';
 client.sms.messages.create({
     to: myNumber,
     from: TWILIO_NUMBER,
-    body:'ahoy hoy! Testing Twilio and node.js'
+    body:'Yo John Fuck YOU!'
 }, function(error, message) {
     // The HTTP request to Twilio will run asynchronously. This callback
     // function will be called when a response is received from Twilio
