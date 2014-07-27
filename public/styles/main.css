@@ -20,3 +20,13 @@ h1{
 {
   stroke-dasharray: 1, 2;
 }
+
+#line-graph {
+  border: black;
+  border-style: solid;
+}
+
+svg {
+  display: block;
+  margin: auto;
+}

@@ -7,9 +7,9 @@ opportunity to set a precedent for how we document our directives, like so:
 Adds an item to <array to add to> where this array is specified in the ng-model attribute of the
 div smAddItem rests on. smAddItem must be attached to a div as it will not init its own elements.
 */
-angular.module('remembrallApp.d3Directives', ['remembrallApp.d3Services'])
-  .directive('streakChart', ['d3Service',
-    function (d3Service) {
+angular.module('remembrallApp.d3Directives', ['remembrallApp.libFactories'])
+  .directive('streakChart', ['d3Service', '$window', '_',
+    function (d3Service, $window, _) {
       return {
         restrict: 'E',
         templateUrl: 'templates/chart.html',
@@ -24,28 +24,34 @@ angular.module('remembrallApp.d3Directives', ['remembrallApp.d3Services'])
           var plotData = scope.data;
           var padding = 20;
           var pathClass = 'path';
-          var xScale, yScale, xAxisGen, yAxisGen, lineFun, svg, rawSvg;
-          function setChartParameters() {
-            xScale = d3.scale.linear()
-                       .domain([plotData[0].timeStamp.getDay(), plotData[plotData.length - 1].timeStamp.getDay()])
-                       .range([padding + 5, rawSvg.clientWidth + padding]);
+          var xScale, yScale, xAxisGen, yAxisGen, lineFun, svg, rawSvg; 
+          var width = 800,
+              height = 350;
+          var margin = { top: 20, right: 20, bottom: 20, left: 30};
+          function setChartParameters(d3) {
+            xScale = d3.time.scale()
+                       .domain([plotData[0].timeStamp, plotData[plotData.length - 1].timeStamp])
+                       .range([5, width]);
             yScale = d3.scale.linear()
                        .domain([0, d3.max(plotData, function(d) {
                          return d.data;
                        })])
-                       .range([rawSvg.clientHeight - padding, 0]);
+                       .range([height, 0]);
             xAxisGen = d3.svg.axis()
                              .scale(xScale)
                              .orient('bottom')
-                             .ticks(plotData.length - 1);
+                             .ticks(d3.time.days, 1)
+                             .tickFormat(d3.time.format('%a %d'))
+                             .tickSize(0)
+                             .tickPadding(8);
             yAxisGen = d3.svg.axis()
                              .scale(yScale)
                              .orient('left')
-                             .ticks(5)
+                             .ticks(5);
 
             lineFun = d3.svg.line()
                         .x(function(d) {
-                          return xScale(d.timeStamp.getDay());
+                          return xScale(d.timeStamp);
                         })
                         .y(function(d) {
                           return yScale(d.data);
@@ -53,17 +59,17 @@ angular.module('remembrallApp.d3Directives', ['remembrallApp.d3Services'])
                         .interpolate('linear');
           }
 
-          function drawLineChart() {
-            setChartParameters();
+          function drawLineChart(d3) {
+            setChartParameters(d3);
 
             svg.append('svg:g')
                .attr('class', 'x axis')
-               .attr('transform', 'translate(0, 180)')
+               .attr('transform', 'translate(0, '+ height + ')')
                .call(xAxisGen);
 
             svg.append('svg:g')
                .attr('class', 'y axis')
-               .attr('transform', 'translate(20,0)')
+               .attr('transform', 'translate(0, 0)')
                .call(yAxisGen);
 
             svg.append('svg:path')
@@ -76,13 +82,13 @@ angular.module('remembrallApp.d3Directives', ['remembrallApp.d3Services'])
                });
           }
           d3Service.d3().then(function(d3) {
-            svg = d3.select(element[0])
-              .append('svg')
-              .style('width', '1000px')
-              .style('height', '1000px')
-              .style('padding', '10px');
             rawSvg = element.find("svg")[0];
-            drawLineChart();
+            svg = d3.select(rawSvg)
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
+            drawLineChart(d3);
           });
 
         }

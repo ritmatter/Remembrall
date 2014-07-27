@@ -5,8 +5,8 @@ angular.module('remembrallApp', [
   'remembrallApp.directives',
   'remembrallApp.controllers',
   'remembrallApp.services',
-  'remembrallApp.d3Directives',
-  'remembrallApp.d3Services'
+  'remembrallApp.libFactories',
+  'remembrallApp.d3Directives'
 ]).
 config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider
