@@ -25,3 +25,4 @@ client.sms.messages.create({
         console.log('Oops! There was an error.');
     }
 });
+module.exports = client;

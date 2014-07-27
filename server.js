@@ -26,7 +26,7 @@ app.use(express.static(__dirname + '/public')); // set the static files location
 // ==================================================
 var dataRouter = express.Router();
 var frontendRouter = express.Router();
-twilio_router = require('./app/routes/twilio_router.js')(dataRouter); // configure our routes
+twilio_router = require('./app/routes/twilio_router.js');// configure our routes
 point_router = require('./app/routes/point_router.js')(dataRouter);
 user_router = require('./app/routes/user_router.js')(dataRouter);
 
