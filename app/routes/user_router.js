@@ -22,7 +22,8 @@ module.exports = function(router) {
           new User({
               username      : req.body.type,
               time_stamp    : Date.now(),
-              password      : req.body.user_id
+              password      : req.body.user_id,
+              phoneNumber   : req.body.phoneNumber
           }).save( function(err) {
               if (err)
                   res.send(err);

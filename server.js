@@ -10,7 +10,7 @@ var app = express();
 var db = require('./config/db');
 
 var port = process.env.PORT || 8080; // set up our port
-mongoose.connect(db.url) // connect to mongo database instance. Uncomment this once you actually
+mongoose.connect(db.url); // connect to mongo database instance. Uncomment this once you actually
 // get a mongo database instance set up for this project
 
 // get all data / stuff of the body (POST) parameters
@@ -26,7 +26,7 @@ app.use(express.static(__dirname + '/public')); // set the static files location
 // ==================================================
 var dataRouter = express.Router();
 var frontendRouter = express.Router();
-//twilio_router = require('./app/routes/twilio_router.js');// configure our routes
+var twilio_router = require('./app/routes/twilio_router.js')(dataRouter);// configure our routes
 var pointRoutes = require('./app/routes/point_router.js')(dataRouter);
 var userRoutes = require('./app/routes/user_router.js')(dataRouter);
 
