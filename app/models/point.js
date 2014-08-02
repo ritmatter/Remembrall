@@ -5,14 +5,14 @@ var Schema = mongoose.Schema;
 
 var PointSchema = new Schema({
   type: String,
-  timeStamp: Date,
+  timeStamp: { type: Date, default: Date.now },
   userId: Number,
   unit: String,
   data: Number
 });
 
 PointSchema.method.findByUserId = function(userId, cb) {
-    return this.find({ userId : userId }, cb);
+    return this.find({userId : userId}, cb);
 }
 
 PointSchema.method.findByUserIdAndType = function(userId, type, cb) {

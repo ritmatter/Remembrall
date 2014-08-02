@@ -1,4 +1,5 @@
 'use strict';
+var window = window || {};
 
 angular.module('remembrallApp.libFactories', [])
   .service('d3Service', ['$document', '$q', '$rootScope', '$window',

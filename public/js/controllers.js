@@ -1,11 +1,14 @@
 'use strict';
 
-angular.module('remembrallApp.controllers', [])
-  .controller('VisualizationController', ['$scope', '$window', function($scope, $window) {
-      $scope.data = [
-        {"timeStamp": new Date("07/22/2014"), "data": 5},
-        {"timeStamp": new Date("07/23/2014"), "data": 3},
-        {"timeStamp": new Date("07/24/2014"), "data": 0},
-        {"timeStamp": new Date("07/25/2014"), "data": 2}
-      ];
+angular.module('remembrallApp.controllers', ['remembrallApp.services'])
+  .controller('VisualizationController', ['$scope', '$window', 'Points',
+      function($scope, $window, Points) {
+    Points.getFriends().$promise.then(function(response) {
+      angular.forEach(response, function(item) {
+        if (item.timeStamp) { 
+          item.dateTimeStamp = new Date(item.timeStamp); 
+        }
+      });
+      $scope.data = response;
+    });
   }]);

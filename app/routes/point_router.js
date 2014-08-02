@@ -21,8 +21,7 @@ module.exports = function(router) {
       .post(function(req, res) {
           new Point({
               type          : req.body.type,
-              time_stamp    : Date.now(),
-              user_id       : req.body.user_id,
+              userId       : req.body.user_id,
               unit          : req.body.unit,
               data          : req.body.data
           }).save( function(err) {

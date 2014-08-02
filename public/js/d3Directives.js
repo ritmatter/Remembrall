@@ -30,7 +30,8 @@ angular.module('remembrallApp.d3Directives', ['remembrallApp.libFactories'])
           var margin = { top: 20, right: 20, bottom: 20, left: 30};
           function setChartParameters(d3) {
             xScale = d3.time.scale()
-                       .domain([plotData[0].timeStamp, plotData[plotData.length - 1].timeStamp])
+                       .domain([plotData[0].dateTimeStamp,
+                           plotData[plotData.length - 1].dateTimeStamp])
                        .range([5, width]);
             yScale = d3.scale.linear()
                        .domain([0, d3.max(plotData, function(d) {
@@ -51,7 +52,7 @@ angular.module('remembrallApp.d3Directives', ['remembrallApp.libFactories'])
 
             lineFun = d3.svg.line()
                         .x(function(d) {
-                          return xScale(d.timeStamp);
+                          return xScale(d.dateTimeStamp);
                         })
                         .y(function(d) {
                           return yScale(d.data);
