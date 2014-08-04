@@ -1,5 +1,6 @@
 'use strict';
 
+
 angular.module('remembrallApp', [
   'ngRoute',
   'remembrallApp.directives',

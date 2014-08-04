@@ -1,6 +1,8 @@
 'use strict';
 
 module.exports = function(grunt) {
+  var browsers = ['Chrome'];
+  var plugins = ['karma-jasmine', 'karma-chrome-launcher'];
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
@@ -33,6 +35,21 @@ module.exports = function(grunt) {
           script: 'server.js'
         }
       }
+    },
+    karma: {
+      options: {
+        browsers: browsers,
+        files: [
+          'public/libs/angular/angular.js', 'public/libs/angular-mocks/angular-mocks.js',
+          'public/js/**/*.js', 'public/test/**/*.js' 
+        ],
+        frameworks: ['jasmine'],
+        plugins: plugins,
+        autoWatch: false,
+        singleRun: true
+      },
+      unit: {
+      }
     }
   });
 
@@ -40,7 +57,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-express-server');
+  grunt.loadNpmTasks('grunt-karma');
 
   // the default task can be run just by typing "grunt" on the command line
-  grunt.registerTask('default', ['express:dev', 'watch']);
+  grunt.registerTask('default', ['express:dev', 'karma:unit:start', 'watch']);
+  grunt.registerTask('test', ['karma:unit:start']);
 };

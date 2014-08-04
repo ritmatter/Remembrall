@@ -2,16 +2,21 @@
   "name": "Remembrall",
   "main": "server.js",
   "dependencies": {
-    "express" : "~4.5.1",
-    "mongoose" : "~3.8.0",
-    "body-parser" : "~1.4.2",
-    "method-override" : "~2.0.2",
+    "express": "~4.5.1",
+    "mongoose": "~3.8.0",
+    "body-parser": "~1.4.2",
+    "method-override": "~2.0.2",
     "grunt": "~0.4.5",
     "grunt-contrib-jshint": "latest",
     "grunt-contrib-watch": "latest",
     "twilio": "latest",
     "grunt-express-server": "latest",
-    "bcrypt": "latest"
+    "bcrypt": "latest",
+    "karma": "latest",
+    "grunt-karma": "latest",
+    "karma-jasmine": "latest"
+  },
+  "devDependencies": {
+    "karma-chrome-launcher": "^0.1.4"
   }
 }
-

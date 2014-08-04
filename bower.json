@@ -10,6 +10,8 @@
     "angular-resource": "latest",
     "ui-bootstrap": "latest",
     "d3": "latest",
-    "underscore": "latest"
+    "underscore": "latest",
+    "jasmine": "latest",
+    "angular-mocks": "latest"
   }
 }
