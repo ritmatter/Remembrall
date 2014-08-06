@@ -16,10 +16,29 @@ module.exports = function(router) {
             var from = req.body.From;
 
             var input = message.split(" ");
-            if (input.length != 3 || isNaN(input[1])) {
-                response = "Sorry, we were unable to process that. Please make sure you enter <VERB> <MEASUREMENT> <UNIT>";
-                sendText(from, message, response);
-            } else {
+            if (input.length == 2) {
+                var userSec = input[0].split(":");
+                var passwordSec = input[1].split(":");
+
+                if (userSec.length == 2 && passwordSec.length == 2) {
+                    var userName = userSec[1];
+                    var password = passwordSec[1];
+
+                    new User({
+                        username    : userName,
+                        password    : password,
+                        phoneNumber : from
+                    }).save( function(err) {
+                        if (err)
+                            res.send(err);
+                    });
+                    response = "Welcome, " + userName + "! Start logging your stats now!";
+                    sendText(from, message, response);
+                } else {
+                    response = "Sorry, something went wrong. Please send your text again";
+                    sendText(from, message, response);
+                }
+            } else if (input.length == 3 && !(isNaN(input[1]))) {
                 var type = input[0];
                 var data = input[1];
                 var unit = input[2];
@@ -32,24 +51,25 @@ module.exports = function(router) {
                         sendText(from, message, response);
                     }
                     else if (!user) {
-                        response = "Hi there! We don't recognize your number. If you'd like to sign up, text us \"u:<USERNAME>, p:<PASSWORD>\"";
+                        response = "Hi there! We don't recognize your number. If you'd like to sign up, text us \"u:<USERNAME> p:<PASSWORD>\"";
                         sendText(from, message, response);
                     } else {
                         new Point({
                             type          : type,
-                            time_stamp    : Date.now(),
-                            user_id       : user.userId,
+                            _userId        : user._id,
                             unit          : unit,
                             data          : data
                         }).save( function(err) {
                             if (err)
                                 res.send(err);
-                            res.json({ message : 'Point created' });
                         });
                         response = "Successfully processed " + "\"" + message + "\"";
                         sendText(from, message, response);
                     }
                 });
+            } else {
+                response = "Sorry, we were unable to process your message. Please send your text again";
+                sendText(from, message, response);
             }
        });
 };

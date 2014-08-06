@@ -22,7 +22,7 @@ module.exports = function(router) {
           new User({
               username      : req.body.type,
               time_stamp    : Date.now(),
-              password      : req.body.user_id,
+              password      : req.body.password,
               phoneNumber   : req.body.phoneNumber
           }).save( function(err) {
               if (err)
@@ -48,7 +48,7 @@ module.exports = function(router) {
         .delete(function(req, res) {
              Point.remove({
                  _id: req.params.point_id,
-                 userId : req.params.user_id,
+                 _userId : req.params.user_id,
              }, function(err, point) {
                  if (err)
                      res.send(err);
@@ -74,7 +74,7 @@ module.exports = function(router) {
         .delete(function(req, res) {
              Point.remove({
                  _id: req.params.point_id,
-                 userId : req.params.user_id,
+                 _userId : req.params.user_id,
                  type : req.params.type
              }, function(err, point) {
                  if (err)
@@ -131,7 +131,7 @@ module.exports = function(router) {
              });
 
              // Remove the corresponding points
-             Point.remove({ userId: req.params.user_id}, function(err, point) {
+             Point.remove({ _userId: req.params.user_id}, function(err, point) {
                  if (err)
                      res.send(err);
 
