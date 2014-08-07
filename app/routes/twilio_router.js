@@ -86,7 +86,7 @@ function sendText(from, message, response) {
             console.log('Message sent on:');
             console.log(message.dateCreated);
         } else {
-            console.log(error);
+            console.log(err);
             console.log('Oops! There was an error.');
         }
     });
