@@ -10,7 +10,7 @@ var app = express();
 var db = require('./config/db');
 
 var port = process.env.PORT || 8080; // set up our port
-mongoose.connect(db.url); // connect to mongo database instance. Uncomment this once you actually
+mongoose.connect(db.mongoUri); // connect to mongo database instance. Uncomment this once you actually
 // get a mongo database instance set up for this project
 
 // get all data / stuff of the body (POST) parameters
