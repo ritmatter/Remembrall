@@ -9,7 +9,8 @@ var mongoose = require('mongoose'),
 var UserSchema = new Schema({
     username: {type: String, required: true, index: { unique: true } },
     password: {type: String, required: true },
-    phoneNumber: {type: String, required: true, uniqe: true }
+    phoneNumber: {type: String, required: true, uniqe: true },
+    timeStamp : {type: Date, default: Date.now }
 });
 
 

@@ -21,7 +21,7 @@ module.exports = function(router) {
       .post(function(req, res) {
           new Point({
               type          : req.body.type,
-              _userId       : req.body.user_id,
+              _userId       : req.body._userId,
               unit          : req.body.unit,
               data          : req.body.data
           }).save( function(err) {
@@ -49,18 +49,13 @@ module.exports = function(router) {
             Point.findById(req.params.point_id, function(err, point) {
                 if (err)
                     res.send(err);
-
-                Point.update({_id: req.params.point_id}, req.body.update, req.body.options, function(err, point) {
+                point.type = req.body.type;
+                point.data = req.body.data;
+                point.unit = req.body.unit;
+                point.save( function(err) {
                     if (err)
                         res.send(err);
-                });
-
-                // save the point
-                point.save(function(err) {
-                    if (err)
-                        res.send(err);
-
-                    res.json({ message: 'Point updated' });
+                    res.json({ message : 'Successfully updated point' });
                 });
             });
          })

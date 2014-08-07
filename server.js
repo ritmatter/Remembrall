@@ -29,6 +29,7 @@ var frontendRouter = express.Router();
 var twilio_router = require('./app/routes/twilio_router.js')(dataRouter);// configure our routes
 var pointRoutes = require('./app/routes/point_router.js')(dataRouter);
 var userRoutes = require('./app/routes/user_router.js')(dataRouter);
+var categoryRoutes = require('./app/routes/category_router.js')(dataRouter);
 
 // start app ========================================
 frontendRouter.get('*', function(req, res) {

@@ -8,7 +8,7 @@ var User = require('../models/User.js');
 module.exports = function(router) {
     router.route('/users')
 
-      // Get all of the userss
+      // Get all of the users
       .get(function(req, res) {
           User.find(function(err, users) {
               if (err)
@@ -17,11 +17,10 @@ module.exports = function(router) {
           });
       })
 
-      // Create a new point
+      // Create a new user
       .post(function(req, res) {
           new User({
-              username      : req.body.type,
-              time_stamp    : Date.now(),
+              username      : req.body.username,
               password      : req.body.password,
               phoneNumber   : req.body.phoneNumber
           }).save( function(err) {
@@ -33,7 +32,7 @@ module.exports = function(router) {
 
     // Route that end in /points/:user_id
     // -------------------------------------------------------------------------------
-    router.route('/points/:user_id')
+    router.route('/points/userId/:user_id')
 
         // Get all the points for the given user_id
         .get(function(req, res) {
@@ -47,7 +46,6 @@ module.exports = function(router) {
         // Delete the points with this id
         .delete(function(req, res) {
              Point.remove({
-                 _id: req.params.point_id,
                  _userId : req.params.user_id,
              }, function(err, point) {
                  if (err)
@@ -58,8 +56,8 @@ module.exports = function(router) {
         });
 
 
-    // Routes that end /points/:user_id/:type
-    router.route('/points/:user_id/:type')
+    // Routes that end /points/userId/:user_id/:type
+    router.route('/points/userId/:user_id/:type')
 
         // Get all the points for a given type for a given user
         .get(function(req, res) {
@@ -73,7 +71,6 @@ module.exports = function(router) {
         // Delete the points with this id and type
         .delete(function(req, res) {
              Point.remove({
-                 _id: req.params.point_id,
                  _userId : req.params.user_id,
                  type : req.params.type
              }, function(err, point) {
@@ -103,17 +100,12 @@ module.exports = function(router) {
             User.findById(req.params.user_id, function(err, user) {
                 if (err)
                     res.send(err);
-
-                User.update({_id: req.params.user_id}, req.body.update, req.body.options, function(err, user) {
-                    if (err)
-                        res.send(err);
-                });
-
-                // save the user
+                user.username    = req.body.username;
+                user.password    = req.body.password;
+                user.phoneNumber = req.body.phoneNumber;
                 user.save(function(err) {
                     if (err)
                         res.send(err);
-
                     res.json({ message: 'User updated' });
                 });
             });
@@ -126,8 +118,6 @@ module.exports = function(router) {
              User.remove({ _id: req.params.user_id }, function(err, user) {
                  if (err)
                      res.send(err);
-
-                 res.json({ message: 'Successfully deleted user' });
              });
 
              // Remove the corresponding points
@@ -135,7 +125,7 @@ module.exports = function(router) {
                  if (err)
                      res.send(err);
 
-                 res.json({ message: 'Successfully deleted users points' });
+                 res.json({ message: 'Successfully deleted user and users points' });
             });
         });
 };

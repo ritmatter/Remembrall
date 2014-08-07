@@ -6,17 +6,17 @@ var Schema = mongoose.Schema;
 var PointSchema = new Schema({
   type: String,
   timeStamp: { type: Date, default: Date.now },
-  _userId: Schema.Types.ObjectId,
+  _userId: { type: Schema.Types.ObjectId, required : true },
   unit: String,
   data: Number
 });
 
-PointSchema.method.findByUserId = function(userId, cb) {
-    return this.find({userId : userId}, cb);
-}
+PointSchema.statics.findByUserId = function(userId, cb) {
+    return this.find({_userId : userId}, cb);
+};
 
-PointSchema.method.findByUserIdAndType = function(userId, type, cb) {
-    return this.find({ userId : userId, type : type }, cb);
-}
+PointSchema.statics.findByUserIdAndType = function(userId, type, cb) {
+    return this.find({_userId : userId, type : type }, cb);
+};
 
 module.exports = mongoose.model('Point', PointSchema);
