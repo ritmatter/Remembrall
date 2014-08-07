@@ -14,59 +14,60 @@ module.exports = function(router) {
         .post(function(req, res) {
             var message = req.body.Body;
             var from = req.body.From;
-
-            var input = message.split(" ");
-            if (input.length == 2) {
-                var userSec = input[0].split(":");
-                var passwordSec = input[1].split(":");
-
-                if (userSec.length == 2 && passwordSec.length == 2) {
-                    var userName = userSec[1];
-                    var password = passwordSec[1];
-
-                    new User({
-                        username    : userName,
-                        password    : password,
-                        phoneNumber : from
-                    }).save( function(err) {
-                        if (err)
-                            res.send(err);
-                    });
-                    response = "Welcome, " + userName + "! Start logging your stats now!";
-                    sendText(from, message, response);
-                } else {
+            var inputs = message.split(" ");
+            User.findOne({
+                phoneNumber : from,
+            }, function(err, user) {
+                if (err) {
                     response = "Sorry, something went wrong. Please send your text again";
                     sendText(from, message, response);
                 }
-            } else if (input.length == 3 && !(isNaN(input[1]))) {
-                var type = input[0];
-                var data = input[1];
-                var unit = input[2];
+            });
 
-                User.findOne({
-                    phoneNumber : from,
-                }, function(err, user) {
-                    if (err) {
-                        response = "Sorry, something went wrong. Please send your text again";
-                        sendText(from, message, response);
-                    }
-                    else if (!user) {
-                        response = "Hi there! We don't recognize your number. If you'd like to sign up, text us \"u:<USERNAME> p:<PASSWORD>\"";
-                        sendText(from, message, response);
-                    } else {
-                        new Point({
-                            type          : type,
-                            _userId        : user._id,
-                            unit          : unit,
-                            data          : data
+            if (!user) {
+                if (inputs.length == 2) {
+                    var userSec = input[0].split(":");
+                    var passwordSec = input[1].split(":");
+
+                    if (userSec.length == 2 && passwordSec.length == 2) {
+                        var userName = userSec[1];
+                        var password = passwordSec[1];
+
+                        new User({
+                            username    : userName,
+                            password    : password,
+                            phoneNumber : from
                         }).save( function(err) {
                             if (err)
                                 res.send(err);
                         });
-                        response = "Successfully processed " + "\"" + message + "\"";
+                        response = "Welcome, " + userName + "! Start logging your stats now!";
+                        sendText(from, message, response);
+                    } else {
+                        response = "Hi there! We don't recognize your number. If you'd like to sign up, text us \"u:<USERNAME> p:<PASSWORD>\"";
                         sendText(from, message, response);
                     }
+                } else {
+                    response = "Hi there! We don't recognize your number. If you'd like to sign up, text us \"u:<USERNAME> p:<PASSWORD>\"";
+                    sendText(from, message, response);
+                }
+            } else if (inputs.length == 3 && !(isNaN(input[1]))) {
+                var type = input[0];
+                var data = input[1];
+                var unit = input[2];
+
+                new Point({
+                    type          : type,
+                    _userId        : user._id,
+                    unit          : unit,
+                    data          : data
+                }).save( function(err) {
+                    if (err)
+                        res.send(err);
                 });
+
+                response = "Successfully processed " + "\"" + message + "\"";
+                sendText(from, message, response);
             } else {
                 response = "Sorry, we were unable to process your message. Please send your text again";
                 sendText(from, message, response);
