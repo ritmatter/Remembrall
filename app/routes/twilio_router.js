@@ -22,57 +22,57 @@ module.exports = function(router) {
                     response = "Sorry, something went wrong. Please send your text again";
                     sendText(from, message, response);
                 }
-            });
 
-            if (!user) {
-                if (inputs.length == 2) {
-                    var userSec = input[0].split(":");
-                    var passwordSec = input[1].split(":");
+                else if (!user) {
+                    if (inputs.length == 2) {
+                        var userSec = inputs[0].split(":");
+                        var passwordSec = inputs[1].split(":");
 
-                    if (userSec.length == 2 && passwordSec.length == 2) {
-                        var userName = userSec[1];
-                        var password = passwordSec[1];
+                        if (userSec.length == 2 && passwordSec.length == 2) {
+                            var userName = userSec[1];
+                            var password = passwordSec[1];
 
-                        new User({
-                            username    : userName,
-                            password    : password,
-                            phoneNumber : from
-                        }).save( function(err) {
-                            if (err)
-                                res.send(err);
-                        });
-                        response = "Welcome, " + userName + "! Start logging your stats now!";
-                        sendText(from, message, response);
+                            new User({
+                                username    : userName,
+                                password    : password,
+                                phoneNumber : from
+                            }).save( function(err) {
+                                if (err)
+                                    res.send(err);
+                            });
+                            response = "Welcome, " + userName + "! Start logging your stats now!";
+                            sendText(from, message, response);
+                        } else {
+                            response = "Hi there! We don't recognize your number. If you'd like to sign up, text us \"u:<USERNAME> p:<PASSWORD>\"";
+                            sendText(from, message, response);
+                        }
                     } else {
                         response = "Hi there! We don't recognize your number. If you'd like to sign up, text us \"u:<USERNAME> p:<PASSWORD>\"";
                         sendText(from, message, response);
                     }
+                } else if (inputs.length == 3 && !(isNaN(inputs[1]))) {
+                    var type = inputs[0];
+                    var data = inputs[1];
+                    var unit = inputs[2];
+
+                    new Point({
+                        type          : type,
+                        _userId        : user._id,
+                        unit          : unit,
+                        data          : data
+                    }).save( function(err) {
+                        if (err)
+                            res.send(err);
+                    });
+
+                    response = "Successfully processed " + "\"" + message + "\"";
+                    sendText(from, message, response);
                 } else {
-                    response = "Hi there! We don't recognize your number. If you'd like to sign up, text us \"u:<USERNAME> p:<PASSWORD>\"";
+                    response = "Sorry, we were unable to process your message. Please send your text again";
                     sendText(from, message, response);
                 }
-            } else if (inputs.length == 3 && !(isNaN(input[1]))) {
-                var type = input[0];
-                var data = input[1];
-                var unit = input[2];
-
-                new Point({
-                    type          : type,
-                    _userId        : user._id,
-                    unit          : unit,
-                    data          : data
-                }).save( function(err) {
-                    if (err)
-                        res.send(err);
-                });
-
-                response = "Successfully processed " + "\"" + message + "\"";
-                sendText(from, message, response);
-            } else {
-                response = "Sorry, we were unable to process your message. Please send your text again";
-                sendText(from, message, response);
-            }
-       });
+           });
+        });
 };
 
 function sendText(from, message, response) {
