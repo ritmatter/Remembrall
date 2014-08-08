@@ -1,8 +1,8 @@
 describe('MainController', function() {
-  var scope,
-  controller;
-  beforeEach(angular.mock.module('remembrallApp'));
-  it('should have a VisualizationController', function() {
-    expect(remembrallApp.controllers.VisualizationController).toBeDefined();
-  });
+  var scope, controller, mockPointsService = {};
+  beforeEach(angular.mock.module('remembrallApp.controllers'));
+  it('should have a VisualizationController', inject(function($controller) {
+    var VisualizationController = $controller('VisualizationController', { $scope: {} });
+    expect(VisualizationController).toBeDefined();
+  }));
 });
