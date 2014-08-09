@@ -1,7 +1,7 @@
 'use strict';
 
 // RESTful service that will eventually interface with an ~RESTful EAN backend
-angular.module('remembrallApp.services', ['ngResource'])
+angular.module('remembrallApp')
   .service('Points', ['$resource', function($resource) {
     return $resource('/api/points/', {}, {
       getFriends: {

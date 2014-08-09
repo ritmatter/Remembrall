@@ -1,13 +1,9 @@
 'use strict';
 
 
-angular.module('remembrallApp', [
+var remembrallApp = angular.module('remembrallApp', [
   'ngRoute',
-  'remembrallApp.directives',
-  'remembrallApp.controllers',
-  'remembrallApp.services',
-  'remembrallApp.libFactories',
-  'remembrallApp.d3Directives'
+  'ngResource',
 ]).
 config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider

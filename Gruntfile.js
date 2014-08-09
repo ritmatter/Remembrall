@@ -41,7 +41,9 @@ module.exports = function(grunt) {
         browsers: browsers,
         files: [
           'public/libs/angular/angular.js', 'public/libs/angular-mocks/angular-mocks.js',
-          'public/libs/angular-resource/angular-resource.js', 'public/js/*.js', 'public/test/*.js'
+          'public/libs/angular-resource/angular-resource.js',
+          'public/libs/angular-route/angular-route.js',
+          'public/js/*.js', 'public/test/*.js'
         ],
         frameworks: ['jasmine'],
         plugins: plugins,

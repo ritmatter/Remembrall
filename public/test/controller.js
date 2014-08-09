@@ -1,7 +1,7 @@
 describe('Initialize Controller', function() {
   var scope, controller, mockPointsService = {};
   beforeEach(function () {
-    angular.mock.module('remembrallApp.controllers');
+    angular.mock.module('remembrallApp');
     inject(function($rootScope, $controller, $q, _$timeout_) {
       mockPoints =  {
         getFriends: function () {}

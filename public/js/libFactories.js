@@ -1,7 +1,7 @@
 'use strict';
 var window = window || {};
 
-angular.module('remembrallApp.libFactories', [])
+angular.module('remembrallApp')
   .service('d3Service', ['$document', '$q', '$rootScope', '$window',
     function($document, $q, $rootScope, $window) {
       var d = $q.defer();

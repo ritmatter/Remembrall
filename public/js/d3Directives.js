@@ -7,7 +7,7 @@ opportunity to set a precedent for how we document our directives, like so:
 Adds an item to <array to add to> where this array is specified in the ng-model attribute of the
 div smAddItem rests on. smAddItem must be attached to a div as it will not init its own elements.
 */
-angular.module('remembrallApp.d3Directives', ['remembrallApp.libFactories'])
+angular.module('remembrallApp')
   .directive('streakChart', ['d3Service', '$window', '_',
     function (d3Service, $window, _) {
       return {
