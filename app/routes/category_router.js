@@ -70,5 +70,3 @@ module.exports = function(router) {
             });
         });
 };
-
-

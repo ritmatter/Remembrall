@@ -3,9 +3,10 @@
 
 var Point = require('../models/Point.js');
 var User = require('../models/User.js');
-// Routes that beinng with '/users
+// Routes that begin with '/users
 // ---------------------------------------------------------------------------
-module.exports = function(router) {
+module.exports = function(router, auth) {
+    router.use(auth); 
     router.route('/users')
 
       // Get all of the users
@@ -128,4 +129,5 @@ module.exports = function(router) {
                  res.json({ message: 'Successfully deleted user and users points' });
             });
         });
+  
 };

@@ -5,7 +5,7 @@ var Point = require('../models/Point.js');
 
 // Routes that end in /points
 // --------------------------------------------------------------------------------
-module.exports = function(router) {
+module.exports = function(router, auth) {
     router.route('/points')
 
       // Get all of the points

@@ -15,7 +15,10 @@
     "method-override": "~2.0.2",
     "mongodb": "^1.4.8",
     "mongoose": "~3.8.0",
-    "twilio": "latest"
+    "twilio": "latest",
+    "passport": "latest",
+    "passport-local": "latest",
+    "express-session": "latest"
   },
   "devDependencies": {
     "karma-chrome-launcher": "^0.1.4"

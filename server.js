@@ -5,9 +5,15 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var session = require('express-session');
 var app = express();
 // configuration
 var db = require('./config/db');
+
+// Get our authentication function and configure passport
+var auth = require('./config/pass.js')(passport, LocalStrategy);
 
 var port = process.env.PORT || 8080; // set up our port
 mongoose.connect(db.mongoUri); // connect to mongo database instance. Uncomment this once you actually
@@ -21,16 +27,20 @@ app.use(bodyParser.urlencoded({ extended: true })); // parse application/x-www-f
 app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header
 // in the request, simulate DELETE/PUT
 app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be the /img for users
+app.use(session({ secret: 'secureman' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // routes
 // ==================================================
 var dataRouter = express.Router();
 var frontendRouter = express.Router();
-var twilio_router = require('./app/routes/twilio_router.js')(dataRouter);// configure our routes
-var pointRoutes = require('./app/routes/point_router.js')(dataRouter);
-var userRoutes = require('./app/routes/user_router.js')(dataRouter);
-var categoryRoutes = require('./app/routes/category_router.js')(dataRouter);
-
+var authRouter = require('./app/routes/auth.js')(dataRouter, auth, passport);
+var twilio_router = require('./app/routes/twilio_router.js')(dataRouter, auth);// configure our routes
+var pointRoutes = require('./app/routes/point_router.js')(dataRouter, auth);
+var userRoutes = require('./app/routes/user_router.js')(dataRouter, auth);
+var categoryRoutes = require('./app/routes/category_router.js')(dataRouter, auth);
 // start app ========================================
 frontendRouter.get('*', function(req, res) {
   res.sendfile('./public/index.html'); // load our public/index.html file (going to be used for templates)
