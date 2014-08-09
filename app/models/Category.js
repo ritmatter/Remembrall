@@ -14,6 +14,6 @@ var CategorySchema = new Schema({
 
 CategorySchema.method.findByUserId = function(userId, cb) {
     return this.find({ _userId : userId }, cb);
-}
+};
 
 module.exports = mongoose.model('Category', CategorySchema);

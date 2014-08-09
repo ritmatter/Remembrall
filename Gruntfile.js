@@ -7,11 +7,12 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
       // define the files to lint
-      files: ['Gruntfile.js', 'public/js/**/*.js'],
+      files: ['Gruntfile.js', 'public/js/**/*.js', 'app/**/*.js',
+        'server.js'],
       // configure JSHint (documented at http://www.jshint.com/docs/)
       options: {
-        globalstrict: true,
         // more options here if you want to override JSHint defaults
+        node: true,
         globals: {
           angular: false,
           module: false,
@@ -62,6 +63,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-karma');
 
   // the default task can be run just by typing "grunt" on the command line
-  grunt.registerTask('default', ['express:dev', 'karma:unit:start', 'watch']);
+  grunt.registerTask('default', ['express:dev', 'karma:unit:start', 'jshint', 'watch']);
   grunt.registerTask('test', ['karma:unit:start']);
 };

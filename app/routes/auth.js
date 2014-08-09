@@ -4,6 +4,7 @@ module.exports = function(router, auth, passport) {
   });
 
   router.post('/login', passport.authenticate('local'), function(req, res) {
+    var user = user || {};
     res.send(user);
   });
 

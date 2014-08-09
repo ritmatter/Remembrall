@@ -18,6 +18,7 @@ module.exports = function(router) {
             User.findOne({
                 phoneNumber : from,
             }, function(err, user) {
+                var response;
                 if (err) {
                     response = "Sorry, something went wrong. Please send your text again";
                     sendText(from, message, response);
