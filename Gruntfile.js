@@ -53,6 +53,14 @@ module.exports = function(grunt) {
       },
       unit: {
       }
+    },
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec'
+        },
+        src: ['test/**/*.js']
+      }
     }
   });
 
@@ -61,8 +69,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-mocha-test');
 
   // the default task can be run just by typing "grunt" on the command line
-  grunt.registerTask('default', ['express:dev', 'karma:unit:start', 'jshint', 'watch']);
+  grunt.registerTask('default', ['express:dev', 'karma:unit:start', 'mochaTest', 'jshint', 'watch']);
   grunt.registerTask('test', ['karma:unit:start']);
 };

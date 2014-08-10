@@ -13,14 +13,19 @@ var session = require('express-session');
 var app = express();
 // configuration
 var db = require('./config/db');
+var env = process.env.NODE_ENV || 'development';
 
 // Get our authentication function and configure passport
 var auth = require('./config/pass.js')(passport, LocalStrategy);
 
 var port = process.env.PORT || 8080; // set up our port
-mongoose.connect(db.mongoUri); // connect to mongo database instance. Uncomment this once you actually
-// get a mongo database instance set up for this project
+if (env == 'development') {
+  mongoose.connect(db.mongoUri); // connect to mongo database instance.
+}
 
+if (env == 'test') {
+  mongoose.connect(db.mongoTestUri)
+}
 // get all data / stuff of the body (POST) parameters
 app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
@@ -51,3 +56,4 @@ app.listen(port); // startup our app at http://localhost:8080
 console.log('Magic happens at port ' + port); // shoutout to the user!
 app.use('/api', dataRouter);
 app.use('/', frontendRouter);
+module.exports = app;
